@@ -525,6 +525,7 @@ func (s *Supplier) RunPip() error {
 	if err != nil {
 		return fmt.Errorf("Couldn't check vendor existence: %v", err)
 	} else if vendorExists {
+		s.Log.Info("pip install collecting your dependencies from App rendor folder, installArgs=%s.", installArgs)
 		installArgs = append(installArgs, "--no-index", "--find-links=file://"+filepath.Join(s.Stager.BuildDir(), "vendor"))
 	}
 
