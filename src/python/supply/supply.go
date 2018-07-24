@@ -521,11 +521,19 @@ func (s *Supplier) RunPip() error {
 	}
 	
 	installArgs := []string{"install", "-r", filepath.Join(s.Stager.DepDir(), "requirements.txt"), "--ignore-installed", "--exists-action=w", "--src=" + filepath.Join(s.Stager.DepDir(), "src")}
-	vendorExists, err := libbuildpack.FileExists(filepath.Join(s.Stager.BuildDir(), "vendor"))
+//	vendorExists, err := libbuildpack.FileExists(filepath.Join(s.Stager.BuildDir(), "vendor"))
+	buildpackDir, err := libbuildpack.GetBuildpackDir()
+	if err != nil {
+		s.Log.Error("Unable to determine buildpack directory: %s", err)
+		os.Exit(9)
+	}
+	vendorExists, err := libbuildpack.FileExists(filepath.Join(buildpackDir, "src/python/vendor"))
+	
 	if err != nil {
 		return fmt.Errorf("Couldn't check vendor existence: %v", err)
 	} else if vendorExists {
-		s.Log.Info("pip install collecting your dependencies from App rendor folder, installArgs=%s.", installArgs)
+		//s.Log.Info("pip install collecting your dependencies from App vendor folder, installArgs=%s.", installArgs)
+		s.Log.Info("pip install collecting your dependencies from buildpack vendor folder, installArgs=%s.", installArgs)
 		installArgs = append(installArgs, "--no-index", "--find-links=file://"+filepath.Join(s.Stager.BuildDir(), "vendor"))
 	}
 
