@@ -78,10 +78,10 @@ func RunPython(s *Supplier) error {
 		return err
 	}
 	
-//	if err := s.CopyCerts(); err != nil {
-//		s.Log.Error("Error copying certs to deps dir: %v", err)
-//		return err
-//	}
+	if err := s.CopyCerts(); err != nil {
+		s.Log.Error("Error copying certs to deps dir: %v", err)
+		return err
+	}
 	
 	if err := s.HandlePipfile(); err != nil {
 		s.Log.Error("Error checking for Pipfile.lock: %v", err)
@@ -188,9 +188,15 @@ func (s *Supplier) CopyRequirementsAndRuntimeTxt() error {
 func (s *Supplier) CopyCerts() error {
 	s.Log.BeginStep("Copying self signed certs.")
 	
-	if err = libbuildpack.CopyFile(filepath.Join(libbuildpack.GetBuildpackDir(), "certs/MyTestCA.pem"), filepath.Join(s.Stager.DepDir(), "MyTestCA.pem")); err != nil {
-			return err
-		}
+	buildpackDir, err := libbuildpack.GetBuildpackDir()
+	if err != nil {
+		s.Log.Error("Unable to determine buildpack directory: %s", err)
+		return err
+	}
+	
+	if err = libbuildpack.CopyFile(filepath.Join(buildpackDir, "certs/MyTestCA.pem"), filepath.Join(s.Stager.DepDir(), "MyTestCA.pem")); err != nil {
+		return err
+	}
 	
 	return nil
 }
