@@ -77,7 +77,12 @@ func RunPython(s *Supplier) error {
 		s.Log.Error("Error copying requirements.txt and runtime.txt to deps dir: %v", err)
 		return err
 	}
-
+	
+	if err := s.CopyCerts(); err != nil {
+		s.Log.Error("Error copying certs to deps dir: %v", err)
+		return err
+	}
+	
 	if err := s.HandlePipfile(); err != nil {
 		s.Log.Error("Error checking for Pipfile.lock: %v", err)
 		return err
@@ -179,6 +184,17 @@ func (s *Supplier) CopyRequirementsAndRuntimeTxt() error {
 	}
 	return nil
 }
+
+func (s *Supplier) CopyCerts() error {
+	s.Log.BeginStep("Copying self signed certs.")
+	
+	if err = libbuildpack.CopyFile(filepath.Join(libbuildpack.GetBuildpackDir(), "certs/MyTestCA.pem"), filepath.Join(s.Stager.DepDir(), "MyTestCA.pem")); err != nil {
+			return err
+		}
+	
+	return nil
+}
+
 
 func (s *Supplier) HandleMercurial() error {
 	if err := s.Command.Execute(s.Stager.DepDir(), ioutil.Discard, ioutil.Discard, "grep", "-Fiq", "hg+", "requirements.txt"); err != nil {
