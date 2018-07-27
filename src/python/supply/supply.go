@@ -556,8 +556,8 @@ func (s *Supplier) RunPip() error {
 	} else if vendorExists {
 		//s.Log.Info("pip install collecting your dependencies from App vendor folder, installArgs=%s.", installArgs)
 		//installArgs = append(installArgs, "--no-index", "--find-links=file://"+filepath.Join(s.Stager.BuildDir(), "vendor"))
-		s.Log.Info("pip install collecting your dependencies from buildpack vendor folder, installArgs=%s.", installArgs)
-		installArgs = append(installArgs, "--no-index", "--find-links=file://"+filepath.Join(buildpackDir, "vendor"))
+		s.Log.Info("pip install collecting your dependencies from buildpack vendor folder: %s, installArgs=%s.",filepath.Join(buildpackDir, "vendor"), installArgs)
+		installArgs = append(installArgs, "--no-index", "--find-links=file://" + filepath.Join(buildpackDir, "vendor"))
 	}
 
 	if err := s.Command.Execute(s.Stager.BuildDir(), indentWriter(os.Stdout), indentWriter(os.Stderr), "pip", installArgs...); err != nil {
