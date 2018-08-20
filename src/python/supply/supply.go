@@ -194,7 +194,7 @@ func (s *Supplier) CopyCerts() error {
 		return err
 	}
 	
-	if err = libbuildpack.CopyFile(filepath.Join(buildpackDir, "certs/ca-cert.pem"), filepath.Join(s.Stager.DepDir(), "ca-cert.pem")); err != nil {
+	if err = libbuildpack.CopyFile(filepath.Join(buildpackDir, "certs/ca-cert.pem"), filepath.Join(s.Stager.DepDir(), "MyTestCA.pem")); err != nil {
 		return err
 	}
 	
