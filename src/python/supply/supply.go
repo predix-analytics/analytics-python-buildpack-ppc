@@ -678,7 +678,6 @@ func (s *Supplier) MergeFiles() error {
 	}
 
  	scanner := bufio.NewScanner(sourcefile)
-	numpys:= make([]string, 0)
 	for scanner.Scan() {
 		if(strings.ToLower(strings.TrimSpace(scanner.Text())) != "nomkl") {
 			targetfile.WriteString(strings.TrimSpace(scanner.Text())) 
