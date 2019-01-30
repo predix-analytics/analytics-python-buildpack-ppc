@@ -681,18 +681,11 @@ func (s *Supplier) MergeFiles() error {
 	numpys:= make([]string, 0)
 	for scanner.Scan() {
 		if(strings.ToLower(strings.TrimSpace(scanner.Text())) != "nomkl") {
-			if(strings.HasPrefix(strings.TrimSpace(scanner.Text()), "numpy")) {
-				numpys = append(numpys, strings.TrimSpace(scanner.Text()))
-			} else {
-				targetfile.WriteString(strings.TrimSpace(scanner.Text())) 
-				targetfile.WriteString("\n") 
-			}
+			targetfile.WriteString(strings.TrimSpace(scanner.Text())) 
+			targetfile.WriteString("\n") 
 		}
   	}
 	
-	targetfile.WriteString(numpys[len(numpys)-1]) 
-	targetfile.WriteString("\n") 
- 	
 	sourcefile.Close()
 	targetfile.Close()
 	
