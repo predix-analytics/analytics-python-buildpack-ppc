@@ -174,6 +174,9 @@ func (s *Supplier) CopyRequirementsAndRuntimeTxt() error {
 		if err = libbuildpack.CopyFile(filepath.Join(s.Stager.BuildDir(), "requirements.txt"), filepath.Join(s.Stager.DepDir(), "requirements.txt")); err != nil {
 			return err
 		}
+		if err = libbuildpack.CopyFile(filepath.Join(s.Stager.BuildDir(), "conda-requirements.txt"), filepath.Join(s.Stager.DepDir(), "conda-requirements.txt")); err != nil {
+			return err
+		}
 	}
 	if exists, err := libbuildpack.FileExists(filepath.Join(s.Stager.BuildDir(), "runtime.txt")); err != nil {
 		return err
