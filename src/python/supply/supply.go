@@ -708,6 +708,13 @@ func (s *Supplier) MergeFiles() error {
 		return err
 	}
 	fmt.Println(string(buf))
+	
+	s.Log.BeginStep("c0nda-requirements.txt after merge")
+	buf, err := ioutil.ReadFile(filepath.Join(s.Stager.BuildDir(), "conda-requirements.txt"))
+	if err != nil {
+		return err
+	}
+	fmt.Println(string(buf))
 	return nil
 }
 
