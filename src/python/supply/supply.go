@@ -542,8 +542,9 @@ func (s *Supplier) RunPip() error {
 		return nil
 	}
 	
-	installArgs := []string{"install", "-r", filepath.Join(s.Stager.DepDir(), "requirements.txt"), "--ignore-installed", "--exists-action=w", "--src=" + filepath.Join(s.Stager.DepDir(), "src")}
-        s.Log.Info("pip install arguments: ", installArgs)
+	//installArgs := []string{"install", "-r", filepath.Join(s.Stager.DepDir(), "requirements.txt"), "--ignore-installed", "--exists-action=w", "--src=" + filepath.Join(s.Stager.DepDir(), "src")}
+	installArgs := []string{"install", "-r", filepath.Join(s.Stager.DepDir(), "requirements.txt"), "--exists-action=w", "--src=" + filepath.Join(s.Stager.DepDir(), "src")}
+	s.Log.Info("pip install arguments: ", installArgs)
 //	vendorExists, err := libbuildpack.FileExists(filepath.Join(s.Stager.BuildDir(), "vendor"))
 	buildpackDir, err := libbuildpack.GetBuildpackDir()
 	if err != nil {
