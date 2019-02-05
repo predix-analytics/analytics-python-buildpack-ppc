@@ -50,7 +50,7 @@ dependencies:
   uri: http://repo.continuum.io/miniconda/Miniconda3-4.4.10-Linux-x86_64.sh
   sha256: 0c2e9b992b2edd87eddf954a96e5feae86dd66d69b1f6706a99bd7fa75e7a891
 - name: pip
-  version: 19.0.1
+  version: 9.0.3
   uri: https://buildpacks.cloudfoundry.org/dependencies/pip/pip-9.0.3-7bf48f9a.tar.gz
   sha256: 7bf48f9a693be1d58f49f7af7e0ae9fe29fd671cde8a55e6edca3581c4ef5796
   cf_stacks:
