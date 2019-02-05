@@ -574,9 +574,9 @@ func (s *Supplier) RunPip() error {
 		return fmt.Errorf("Couldn't run pip: %v", err)
 	}
 
-	installArgs := []string{"install", "-r", filepath.Join(s.Stager.DepDir(), "conda-requirements.txt"), "--exists-action=w", "--src=" + filepath.Join(s.Stager.DepDir(), "src")}
-	s.Log.Info("pip install arguments when running pip install for conda-requirements.txt: ", installArgs)
-	if err := s.Command.Execute(s.Stager.BuildDir(), indentWriter(os.Stdout), indentWriter(os.Stderr), "pip", installArgs...); err != nil {
+	condaInstallArgs := []string{"install", "-r", filepath.Join(s.Stager.DepDir(), "conda-requirements.txt"), "--exists-action=w", "--src=" + filepath.Join(s.Stager.DepDir(), "src")}
+	s.Log.Info("pip install arguments when running pip install for conda-requirements.txt: ", condaInstallArgs)
+	if err := s.Command.Execute(s.Stager.BuildDir(), indentWriter(os.Stdout), indentWriter(os.Stderr), "pip", condaInstallArgs...); err != nil {
 		s.Log.Debug("******Path val: %s", os.Getenv("PATH"))
 
 		if vendorExists {
