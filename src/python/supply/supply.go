@@ -7,7 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-	"bufio"
+	//"bufio"
 	"path/filepath"
 	"python/conda"
 	"python/pipfile"
