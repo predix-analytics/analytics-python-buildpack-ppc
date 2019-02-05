@@ -543,6 +543,7 @@ func (s *Supplier) RunPip() error {
 	}
 	
 	installArgs := []string{"install", "-r", filepath.Join(s.Stager.DepDir(), "requirements.txt"), "--ignore-installed", "--exists-action=w", "--src=" + filepath.Join(s.Stager.DepDir(), "src")}
+        s.Log.Info("pip install arguments: ", installArgs)
 //	vendorExists, err := libbuildpack.FileExists(filepath.Join(s.Stager.BuildDir(), "vendor"))
 	buildpackDir, err := libbuildpack.GetBuildpackDir()
 	if err != nil {
@@ -559,8 +560,10 @@ func (s *Supplier) RunPip() error {
 		s.Log.Info("pip install collecting your dependencies from buildpack vendor folder: %s, installArgs=%s.",filepath.Join(buildpackDir, "vendor"), installArgs)
 		installArgs = append(installArgs, "--no-index", "--no-build-isolation", "--find-links=file://" + filepath.Join(s.Stager.BuildDir(), "vendor"))
 		installArgs = append(installArgs, "--find-links=file://" + filepath.Join(buildpackDir, "vendor"))
+		s.Log.Info("pip install arguments when vendor exists in buildpack: ", installArgs)
 	}
 
+	s.Log.Info("pip install arguments when running pip install: ", installArgs)
 	if err := s.Command.Execute(s.Stager.BuildDir(), indentWriter(os.Stdout), indentWriter(os.Stderr), "pip", installArgs...); err != nil {
 		s.Log.Debug("******Path val: %s", os.Getenv("PATH"))
 
