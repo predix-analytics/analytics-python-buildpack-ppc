@@ -577,7 +577,7 @@ func (s *Supplier) RunPip() error {
 		return fmt.Errorf("Couldn't run pip: %v", err)
 	}
 
-	condaInstallArgs := []string{"install", "-r", filepath.Join(s.Stager.DepDir(), "conda-requirements.txt"), "--exists-action=w", "--src=" + filepath.Join(s.Stager.DepDir(), "src")}
+	condaInstallArgs := []string{"install", "-r", filepath.Join(s.Stager.DepDir(), "requirements-conda.txt"), "--exists-action=w", "--src=" + filepath.Join(s.Stager.DepDir(), "src")}
 	s.Log.Info("pip install arguments when running pip install for conda-requirements.txt: ", condaInstallArgs)
 	if err := s.Command.Execute(s.Stager.BuildDir(), indentWriter(os.Stdout), indentWriter(os.Stderr), "pip", condaInstallArgs...); err != nil {
 		s.Log.Debug("******Path val: %s", os.Getenv("PATH"))
@@ -739,35 +739,5 @@ func (s *Supplier) MergeFiles() error {
 		return err
 	}
 	fmt.Println(string(buf3))
-	return nil
-}
-
-func (s *Supplier) MergeFilesWithoutRemovingNomkl() error {
-	s.Log.BeginStep("Merge conda-requirements.txt to requirements.txt")
-	b, err := ioutil.ReadFile(filepath.Join(s.Stager.BuildDir(), "conda-requirements.txt"))
-	if err != nil {
-		return err
-	}
-	fmt.Println(string(b))
-	
-	s.Log.BeginStep("appending to requirements.txt")
-	f, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "requirements.txt"), os.O_APPEND|os.O_WRONLY, 0644) 
-	if err != nil {
-		return err
-	}
-	n, err := f.WriteString(string(b)) 
-	if err != nil {
-		return err
-	}
-	fmt.Printf("\nLength: %d bytes", n)
-	f.Close()
-	
-	s.Log.BeginStep("requirements.txt after merge")
-	buf, err := ioutil.ReadFile(filepath.Join(s.Stager.BuildDir(), "requirements.txt"))
-	if err != nil {
-		return err
-	}
-	fmt.Println(string(buf))
-			      
 	return nil
 }
