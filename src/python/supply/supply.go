@@ -696,7 +696,7 @@ func (s *Supplier) MergeFiles() error {
  	}
 	
 	s.Log.BeginStep("creating file requirements-conda.txt")
-	targetFile, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "requirements-conda.txt"), os.O_APPEND|os.O_WRONLY, 0644)
+	targetFile, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "requirements-conda.txt"), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
   	if err != nil {
    		return err
  	}
