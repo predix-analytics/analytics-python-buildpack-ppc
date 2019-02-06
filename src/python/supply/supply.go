@@ -78,10 +78,10 @@ func RunPython(s *Supplier) error {
 		return err
 	}
 	
-	if err := s.CopyCerts(); err != nil {
-		s.Log.Error("Error copying certs to deps dir: %v", err)
-		return err
-	}
+	//if err := s.CopyCerts(); err != nil {
+	//	s.Log.Error("Error copying certs to deps dir: %v", err)
+	//	return err
+	//}
 	
 	if err := s.HandlePipfile(); err != nil {
 		s.Log.Error("Error checking for Pipfile.lock: %v", err)
