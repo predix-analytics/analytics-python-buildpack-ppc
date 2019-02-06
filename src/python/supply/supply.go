@@ -696,24 +696,24 @@ func (s *Supplier) MergeFiles() error {
  	}
 	
 	s.Log.BeginStep("creating file requirements-conda.txt")
-	targetFile, err := os.Openfile(filepath.Join(s.Stager.BuildDir(), "requirements-conda.txt"), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	targetFile, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "requirements-conda.txt"), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
   	if err != nil {
    		return err
  	}
 	
  	scanner1 := bufio.NewScanner(sourceFile1)
 	for scanner1.Scan() {
-		if(strings.ToLower(strings.TrimSpace(scanner1.Text())).beginWith("--index-url")) {
-			targetfile.WriteString(strings.TrimSpace(scanner1.Text())) 
-			targetfile.WriteString("\n") 
+		if(strings.ToLower(strings.HasPrefix(strings.TrimSpace(scanner1.Text()), "--index-url"))) {
+			targetFile.WriteString(strings.TrimSpace(scanner1.Text())) 
+			targetFile.WriteString("\n") 
 		}
   	}
 	sourceFile1.Close()
 	
 	scanner2 := bufio.NewScanner(sourceFile2)
 	for scanner2.Scan() {
-		targetfile.WriteString(strings.TrimSpace(scanner2.Text())) 
-		targetfile.WriteString("\n") 
+		targetFile.WriteString(strings.TrimSpace(scanner2.Text())) 
+		targetFile.WriteString("\n") 
   	}
 
 	sourceFile2.Close()
