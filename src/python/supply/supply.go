@@ -684,7 +684,7 @@ func (s *Supplier) SetupCacheDir() error {
 func (s *Supplier) MergeFiles() error {
 
 	s.Log.BeginStep("openning requirements.txt")
-	sourceFile1, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "requirements.txt"), os.O_APPEND|os.O_WRONLY, 0644) 
+	sourceFile1, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "requirements.txt"), os.O_READ|os.O_APPEND|O_WRITE, 0644) 
 	if err != nil {
 		return err
 	}
