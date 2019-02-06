@@ -682,26 +682,35 @@ func (s *Supplier) SetupCacheDir() error {
 }
 
 func (s *Supplier) MergeFiles() error {
-	s.Log.BeginStep("Merge conda-requirements.txt into requirements.txt and using pip to install both non-conda and conda libs")
-	sourcefile, err := os.Open(filepath.Join(s.Stager.BuildDir(), "conda-requirements.txt"))
-  	if err != nil {
-   		return err
- 	}
-	
-	s.Log.BeginStep("appending to requirements.txt")
-	targetfile, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "requirements.txt"), os.O_APPEND|os.O_WRONLY, 0644) 
+
+	s.Log.BeginStep("openning requirements.txt")
+	sourceFile1, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "requirements.txt")) 
 	if err != nil {
 		return err
 	}
 
- 	//scanner := bufio.NewScanner(sourcefile)
-	//for scanner.Scan() {
-	//	if(strings.ToLower(strings.TrimSpace(scanner.Text())) != "nomkl") {
-	//		targetfile.WriteString(strings.TrimSpace(scanner.Text())) 
-	//		targetfile.WriteString("\n") 
-	//	}
-  	//}
+	s.Log.BeginStep("openning conda-requirements.txt")
+	sourcefile2, err := os.Open(filepath.Join(s.Stager.BuildDir(), "conda-requirements.txt"))
+  	if err != nil {
+   		return err
+ 	}
 	
+	s.Log.BeginStep("creating new file requirements-conda.txt with index-url")
+	targetFile, err := os.Open(filepath.Join(s.Stager.BuildDir(), "requirements-conda.txt"), os.O_NEW|os.O_WRONLY, 0644)
+  	if err != nil {
+   		return err
+ 	}
+	
+ 	scanner1 := bufio.NewScanner(sourcefile1)
+	for scanner1.Scan() {
+		if(strings.ToLower(strings.TrimSpace(scanner.Text())) != "nomkl") {
+			targetfile.WriteString(strings.TrimSpace(scanner.Text())) 
+			targetfile.WriteString("\n") 
+		}
+  	}
+	scanner2 := bufio.NewScanner(sourcefile2)
+	
+
 	sourcefile.Close()
 	targetfile.Close()
 	
