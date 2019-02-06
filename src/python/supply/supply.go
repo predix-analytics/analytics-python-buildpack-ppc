@@ -684,7 +684,7 @@ func (s *Supplier) SetupCacheDir() error {
 func (s *Supplier) MergeFiles() error {
 
 	s.Log.BeginStep("openning requirements.txt")
-	sourceFile1, err := os.Open(filepath.Join(s.Stager.BuildDir(), "requirements.txt")) 
+	sourceFile1, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "requirements.txt"), os.O_APPEND|os.O_WRONLY, 0644) 
 	if err != nil {
 		return err
 	}
@@ -713,14 +713,19 @@ func (s *Supplier) MergeFiles() error {
 			break
 		}
   	}
-	sourceFile1.Close()
 	
 	scanner2 := bufio.NewScanner(sourceFile2)
 	for scanner2.Scan() {
-		targetFile.WriteString(strings.TrimSpace(scanner2.Text())) 
-		targetFile.WriteString("\n") 
+		if(scanner2.Text(), "numpy")) {
+			sourceFile1.WriteString(strings.TrimSpace(scanner2.Text())) 
+			sourceFile1.WriteString("\n") 
+		} else {
+			targetFile.WriteString(strings.TrimSpace(scanner2.Text())) 
+			targetFile.WriteString("\n") 
+		}
   	}
 
+	sourceFile1.Close()
 	sourceFile2.Close()
 	targetFile.Close()
 	
