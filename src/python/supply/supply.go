@@ -706,6 +706,7 @@ func (s *Supplier) MergeFiles() error {
 		if(strings.HasPrefix(scanner1.Text(), "--index-url")) {
 			targetFile.WriteString(strings.TrimSpace(scanner1.Text())) 
 			targetFile.WriteString("\n") 
+			break
 		}
   	}
 	sourceFile1.Close()
