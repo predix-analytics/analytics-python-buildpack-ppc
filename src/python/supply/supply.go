@@ -7,7 +7,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
-	//"bufio"
+	"bufio"
 	"path/filepath"
 	"python/conda"
 	"python/pipfile"
@@ -696,7 +696,7 @@ func (s *Supplier) MergeFiles() error {
  	}
 	
 	s.Log.BeginStep("creating new file requirements-conda.txt with index-url")
-	targetFile, err := os.Open(filepath.Join(s.Stager.BuildDir(), "requirements-conda.txt"), os.O_NEW|os.O_WRONLY, 0644)
+	targetFile, err := os.Open(filepath.Join(s.Stager.BuildDir(), "requirements-conda.txt"), os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
   	if err != nil {
    		return err
  	}
