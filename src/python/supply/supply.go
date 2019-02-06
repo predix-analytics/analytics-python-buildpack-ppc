@@ -684,7 +684,7 @@ func (s *Supplier) SetupCacheDir() error {
 func (s *Supplier) MergeFiles() error {
 
 	s.Log.BeginStep("openning requirements.txt")
-	sourceFile1, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "requirements.txt"), os.O_APPEND, 0777) 
+	sourceFile1, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "requirements.txt"), os.O_APPEND|os.O_READ|os.O_WRITE, 0777) 
 	if err != nil {
 		return err
 	}
@@ -710,13 +710,13 @@ func (s *Supplier) MergeFiles() error {
 		if(strings.HasPrefix(scanner1.Text(), "--trusted-host")) {
 			targetFile.WriteString(strings.TrimSpace(scanner1.Text())) 
 			targetFile.WriteString("\n") 
-			break
 		}
   	}
 	
 	scanner2 := bufio.NewScanner(sourceFile2)
 	for scanner2.Scan() {
 		if(strings.HasPrefix(scanner2.Text(), "numpy")) {
+			s.Log.Info("Writing numpy to requirement.txt")
 			sourceFile1.WriteString(strings.TrimSpace(scanner2.Text())) 
 			sourceFile1.WriteString("\n") 
 		} else {
