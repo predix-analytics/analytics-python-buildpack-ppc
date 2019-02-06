@@ -716,7 +716,7 @@ func (s *Supplier) MergeFiles() error {
 	
 	scanner2 := bufio.NewScanner(sourceFile2)
 	for scanner2.Scan() {
-		if(scanner2.Text(), "numpy")) {
+		if(strings.HasPrefix(scanner2.Text(), "numpy")) {
 			sourceFile1.WriteString(strings.TrimSpace(scanner2.Text())) 
 			sourceFile1.WriteString("\n") 
 		} else {
