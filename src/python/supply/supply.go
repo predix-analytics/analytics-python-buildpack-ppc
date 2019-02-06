@@ -703,15 +703,20 @@ func (s *Supplier) MergeFiles() error {
 	
  	scanner1 := bufio.NewScanner(sourcefile1)
 	for scanner1.Scan() {
-		if(strings.ToLower(strings.TrimSpace(scanner.Text())) != "nomkl") {
-			targetfile.WriteString(strings.TrimSpace(scanner.Text())) 
+		if(strings.ToLower(strings.TrimSpace(scanner1.Text())).beginWith("--index-url")) {
+			targetfile.WriteString(strings.TrimSpace(scanner1.Text())) 
 			targetfile.WriteString("\n") 
 		}
   	}
-	scanner2 := bufio.NewScanner(sourcefile2)
+	sourcefile1.Close()
 	
+	scanner2 := bufio.NewScanner(sourcefile2)
+	for scanner2.Scan() {
+		targetfile.WriteString(strings.TrimSpace(scanner2.Text())) 
+		targetfile.WriteString("\n") 
+  	}
 
-	sourcefile.Close()
+	sourcefile2.Close()
 	targetfile.Close()
 	
 	s.Log.BeginStep("requirements.txt")
@@ -727,6 +732,13 @@ func (s *Supplier) MergeFiles() error {
 		return err
 	}
 	fmt.Println(string(buf2))
+	
+	s.Log.BeginStep("new file requirements-conda.txt")
+	buf3, err := ioutil.ReadFile(filepath.Join(s.Stager.BuildDir(), "requirements-conda.txt"))
+	if err != nil {
+		return err
+	}
+	fmt.Println(string(buf3))
 	return nil
 }
 
