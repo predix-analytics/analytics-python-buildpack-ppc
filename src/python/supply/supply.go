@@ -684,13 +684,13 @@ func (s *Supplier) SetupCacheDir() error {
 func (s *Supplier) MergeFiles() error {
 
 	s.Log.BeginStep("openning requirements.txt")
-	sourceFile1, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "requirements.txt")) 
+	sourceFile1, err := os.Open(filepath.Join(s.Stager.BuildDir(), "requirements.txt")) 
 	if err != nil {
 		return err
 	}
 
 	s.Log.BeginStep("openning conda-requirements.txt")
-	sourceFile2, err := os.OpenFile(filepath.Join(s.Stager.BuildDir(), "conda-requirements.txt"))
+	sourceFile2, err := os.Open(filepath.Join(s.Stager.BuildDir(), "conda-requirements.txt"))
   	if err != nil {
    		return err
  	}
@@ -703,7 +703,7 @@ func (s *Supplier) MergeFiles() error {
 	
  	scanner1 := bufio.NewScanner(sourceFile1)
 	for scanner1.Scan() {
-		if(strings.ToLower(strings.HasPrefix(strings.TrimSpace(scanner1.Text()), "--index-url"))) {
+		if(strings.HasPrefix(scanner1.Text(), "--index-url")) {
 			targetFile.WriteString(strings.TrimSpace(scanner1.Text())) 
 			targetFile.WriteString("\n") 
 		}
