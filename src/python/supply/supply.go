@@ -57,6 +57,7 @@ func Run(s *Supplier) error {
 		s.Log.Error("Error checking existence of environment.yml: %v", err)
 		return err
 	} else if exists {
+		s.Log.Info("environment.yml found, run conda")
 		return conda.Run(conda.New(s.Manifest, s.Stager, s.Command, s.Log))
 	} else {
 		return RunPython(s)
